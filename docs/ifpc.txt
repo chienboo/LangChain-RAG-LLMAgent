@@ -1,0 +1,78 @@
+可以，这里给你一份简洁又结构清晰的 ifpc.txt 示例内容，适合用来做 RAG 测试。文本既包含背景、功能、架构，也有示例说明，足够让检索与问答链条有内容可抓取：
+
+⸻
+
+IFPC（Infoflow Path Checker）简介
+
+IFPC 是一个静态分析工具，用于验证 Java 程序中的信息流安全属性。它能够基于源代码自动构建程序依赖图，并在其中检测敏感信息是否从源（source）泄露到汇（sink）。
+
+核心目标是 减少静态分析中的误报（false positives），并帮助开发者快速定位潜在的安全风险路径。
+
+⸻
+
+主要功能
+	1.	信息流路径检测
+	•	识别从敏感源到敏感汇的所有可能路径；
+	•	支持多种分析模式（全程序分析 / 方法级分析 / 指针敏感分析）。
+	2.	路径可行性验证（Path Feasibility Checking）
+	•	通过符号执行和约束求解器（例如 Z3）判断路径是否真正可行；
+	•	对不可行路径进行自动反驳，从而减少误报。
+	3.	可扩展架构
+	•	支持多种后端分析引擎，如 Soot、FlowDroid、Boomerang；
+	•	提供统一的配置接口，可自定义分析精度与优化策略。
+
+⸻
+
+系统架构
+	•	Frontend：解析 Java 字节码，生成中间表示（Jimple IR）。
+	•	Analyzer：执行数据流分析与路径收集（Path Collection）。
+	•	Solver：对路径进行符号化约束求解，判断可行性。
+	•	Reporter：生成结果报告，标注真实告警与被反驳路径。
+
+⸻
+
+典型配置示例
+
+{
+  "project": "WebGoat",
+  "config": {
+    "callgraph": "SPARK",
+    "solver": "Z3",
+    "mode": "INTER",
+    "enableFieldSensitive": true
+  }
+}
+
+
+⸻
+
+输出示例
+
+[INFO] Analyzing project: WebGoat
+[INFO] Found 127 potential paths.
+[INFO] Refuted 94 infeasible paths using constraint solving.
+[SUMMARY] True positives: 33 | False positives reduced: 74%
+
+
+⸻
+
+研究背景与意义
+
+静态分析技术广泛应用于安全检测和程序验证，但由于程序路径复杂、条件分支繁多，往往会出现大量“理论上存在但实际不可达”的警告。
+IFPC 的创新点在于引入路径可行性验证机制（Path Feasibility Refutation），显著降低误报数量，从而提高分析结果的可信度和可用性。
+
+⸻
+
+应用与扩展方向
+	•	可集成至 CI/CD 流程，自动检测代码提交中的隐私泄露。
+	•	与大语言模型（如 Deepseek、Qwen）结合，用于自动生成修复建议。
+	•	支持构建安全基准测试集（PCBench）评估不同分析器性能。
+
+⸻
+
+如果你想让 RAG 任务效果更好，我建议：
+	•	放 3～5 个不同主题的段落（比如架构细节、实验结果、未来工作），
+	•	用简短自然语言书写，避免只堆代码，
+	•	文件总字数建议 500～1000 字左右。
+
+是否需要我帮你扩展成完整版（约 800 字）版本以供你直接放进 docs/ifpc.txt？
